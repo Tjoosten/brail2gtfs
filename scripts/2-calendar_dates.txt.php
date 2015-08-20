@@ -206,7 +206,7 @@ function getSplitTrainRouteId($html) {
 	$j = 0;
 	for($i=2; $i<count($nodes); $i++){
 		$node = $nodes[$i];
-		if(!count($node->attr)) continue; // row with no class-attribute contain no data
+		if (!count($node->attr)) continue; // row with no class-attribute contain no data
 
 		// Check Train-column if contains name of new route_id
 	    $splitRouteId = preg_replace('/\s+/', '', array_shift($node->children[4]->nodes[0]->{'_'}));
