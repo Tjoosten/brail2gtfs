@@ -16,7 +16,7 @@ $shortNames = $configs['shortNames'];
 
 // Hashmap: route_id => array(service_id, VTString)-pairs
 // This way we can generate a new service_id if a route has a different VTString, so another service
-$routes_info = array();
+$routes_info = [];
 
 // We generate our own service_ids, based on the VTString we get from the NMBS
 $service_id = 0; // Counter
@@ -25,10 +25,10 @@ date_default_timezone_set('UTC');
 
 // Scrapes list of routes of the Belgian Rail website
 function getServerData($date, $shortName) {
-	$request_options = array(
+	$request_options = [
             "timeout" => "30",
             "useragent" => "iRail.be by Project iRail",
-            );
+            ];
 	$scrapeURL = "http://www.belgianrail.be/jp/sncb-nmbs-routeplanner/trainsearch.exe/nn?ld=std&AjaxMap=CPTVMap&seqnr=1&";
 
     $post_data = "trainname=" . $shortName . "&start=Zoeken&selectDate=oneday&date=" . $date . "&realtimeMode=Show";
@@ -36,7 +36,7 @@ function getServerData($date, $shortName) {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $scrapeURL);
     curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded'));   
+    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/x-www-form-urlencoded']);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $request_options["timeout"]);
@@ -64,7 +64,7 @@ function getData($serverData, $date, $shortName) {
 	    array_shift($nodes);
 
         while (count($nodes) > 0) {
-	        $route_info = array();
+	        $route_info = [];
 
 	        if ($first) {
 		        $node = array_shift($nodes);
@@ -155,14 +155,14 @@ function getData($serverData, $date, $shortName) {
 
 // Scrapes one route
 function drives($url) {
-	$request_options = array(
+	$request_options = [
             "timeout" => "30",
             "useragent" => "iRail.be by Project iRail",
-            );
+            ];
 	
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded'));   
+    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/x-www-form-urlencoded']);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $request_options["timeout"]);
     curl_setopt($ch, CURLOPT_USERAGENT, $request_options["useragent"]);
@@ -177,14 +177,14 @@ function drives($url) {
 }
 
 function parseSplittedRoute($url) {
-	$request_options = array(
+	$request_options = [
             "timeout" => "30",
             "useragent" => "iRail.be by Project iRail",
-            );
+            ];
 	
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded'));   
+    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/x-www-form-urlencoded']);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $request_options["timeout"]);
     curl_setopt($ch, CURLOPT_USERAGENT, $request_options["useragent"]);
@@ -227,7 +227,7 @@ function checkServiceId($route_short_name, $date, $VTString) {
 	if (isset($routes_info[$route_short_name])) {
 		$service_vtstring_array = $routes_info[$route_short_name]; // array of (service_id, VTString)-pairs
 	} else {
-		$service_vtstring_array = array();
+		$service_vtstring_array = [];
 	}
 
 	$toAddServiceId = "";
@@ -236,10 +236,10 @@ function checkServiceId($route_short_name, $date, $VTString) {
 	if (!isVTStringAlreadyAdded($service_vtstring_array, $VTString)) {
 		$service_id++;
 		$toAddServiceId = $service_id;
-		$new_service_vtstring_pair = array($service_id, $VTString);
+		$new_service_vtstring_pair = [$service_id, $VTString];
 
 		if (!isset($routes_info[$route_short_name])) {
-			$routes_info[$route_short_name] = array();
+			$routes_info[$route_short_name] = [];
 		}
 		array_push($routes_info[$route_short_name], $new_service_vtstring_pair);
 	} else {
