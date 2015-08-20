@@ -110,14 +110,14 @@ function getData($serverData, $date, $shortName) {
 		        			// Check if this train splits by searching for other route_id
 		        			// If not found, this is the main train
 			        		$split_route_short_name = parseSplittedRoute($url); // New route_short_name of the splitted route
-			        		if ($split_route_short_name != NULL) {
+			        		if ($split_route_short_name != null) {
 			        			// E.g. IC 1528 -> IC 1628 to Blankenberge
 			        			checkServiceId($split_route_short_name, $date, $VTString);
 			        		} else {
 			        			// Check second route
 			        			if (drives($next_url)) {
 				        			$split_route_short_name = parseSplittedRoute($next_url); // New route_short_name of the splitted route
-					        		if ($split_route_short_name != NULL) {
+					        		if ($split_route_short_name != null) {
 					        			// E.g. IC 1528 -> IC 1628 to Blankenberge
 					        			checkServiceId($split_route_short_name, $date, $VTString);
 					        		} else {
@@ -129,7 +129,7 @@ function getData($serverData, $date, $shortName) {
 		        			// Check second url
 		        			if (drives($next_url)) {
 			        			$split_route_short_name = parseSplittedRoute($next_url); // New route_short_name of the splitted route
-				        		if ($split_route_short_name != NULL) {
+				        		if ($split_route_short_name != null) {
 				        			// E.g. IC 1528 -> IC 1628 to Blankenberge
 				        			checkServiceId($split_route_short_name, $date, $VTString);
 				        		} else {
@@ -217,7 +217,7 @@ function getSplitTrainRouteId($html) {
 	    }
 	}
 
-	return NULL; // No name for the splitted train
+	return null; // No name for the splitted train
 }
 
 function checkServiceId($route_short_name, $date, $VTString) {
@@ -280,7 +280,7 @@ function getServiceId($route_short_name, $VTString) {
 		}
 	}
 
-	return NULL; // Something went wrong
+	return null; // Something went wrong
 }
 
 function addCalendarDate($service_id, $date, $exception_type) {
